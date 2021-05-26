@@ -1,5 +1,4 @@
-import sortedInsert from './sortedInsert'
-import validateAndParseAddress from './validateAndParseAddress'
-import sqrt from './sqrt'
-
-export { sortedInsert, validateAndParseAddress, sqrt }
+export { computePriceImpact } from './computePriceImpact'
+export { sortedInsert } from './sortedInsert'
+export { sqrt } from './sqrt'
+export { validateAndParseAddress } from './validateAndParseAddress'

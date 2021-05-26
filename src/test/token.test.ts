@@ -1,9 +1,26 @@
 import { ChainId } from '../constants'
-import { Token } from './token'
+import { Token } from '../entities/token'
 
 describe('Token', () => {
   const ADDRESS_ONE = '0x0000000000000000000000000000000000000001'
   const ADDRESS_TWO = '0x0000000000000000000000000000000000000002'
+
+  describe('#constructor', () => {
+    it('fails with invalid address', () => {
+      expect(() => new Token(ChainId.RINKEBY, '0xhello00000000000000000000000000000000002', 18).address).toThrow(
+        '0xhello00000000000000000000000000000000002 is not a valid address'
+      )
+    })
+    it('fails with negative decimals', () => {
+      expect(() => new Token(ChainId.RINKEBY, ADDRESS_ONE, -1).address).toThrow('DECIMALS')
+    })
+    it('fails with 256 decimals', () => {
+      expect(() => new Token(ChainId.RINKEBY, ADDRESS_ONE, 256).address).toThrow('DECIMALS')
+    })
+    it('fails with non-integer decimals', () => {
+      expect(() => new Token(ChainId.RINKEBY, ADDRESS_ONE, 1.5).address).toThrow('DECIMALS')
+    })
+  })
 
   describe('#equals', () => {
     it('fails if address differs', () => {
@@ -13,7 +30,7 @@ describe('Token', () => {
     })
 
     it('false if chain id differs', () => {
-      expect(new Token(ChainId.ROPSTEN, ADDRESS_ONE, 18).equals(new Token(ChainId.MAINNET, ADDRESS_ONE, 18))).toBe(
+      expect(new Token(ChainId.RINKEBY, ADDRESS_ONE, 18).equals(new Token(ChainId.MAINNET, ADDRESS_ONE, 18))).toBe(
         false
       )
     })
